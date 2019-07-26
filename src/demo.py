@@ -31,7 +31,7 @@ def download(text, count):
         img_url = content.children().attr('src')
         img_name = content.children().attr('alt')
 
-        # print("Downloding:" + img_name)
+        print("Downloding:" + img_name)
         count += 1
         print(count)
         # path = "F:\\image\\" + str(img_name) + ".jpg"
@@ -61,8 +61,7 @@ def parse(text):
         content = pq(li)
         a = content('a')
         ref = a.attr('href')
-        total += download(start_request(ref), total)
-        print(total)
+        total = download(start_request(ref), total)
 
 def main():
     url = "http://www.ilemiss.net/e/search/result/index.php?page=0&searchid=590"
