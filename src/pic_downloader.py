@@ -18,7 +18,6 @@ group_json_path = './group.json'
 img_path = 'H:\\image\\'
 
 url = "http://www.ilemiss.net/e/search/result/index.php?page=0&searchid=590"
-parent_url = 'http://www.ilemiss.net/sexy/'
 
 class pic_downloader():
     def __init__(self):
@@ -111,6 +110,7 @@ class pic_downloader():
             json.dump(self.img_dict, outfile, ensure_ascii=False)
 
     def download(self):
+        # load recorded image urls
         if os.path.exists(img_urls_json_path):
             with open(img_urls_json_path, 'r', encoding = 'UTF-8') as stored_file:
                 img_dict = json.load(stored_file)
@@ -131,6 +131,9 @@ class pic_downloader():
                             except:
                                 time.sleep(3)
                                 retry -= 1
+                                if retry <= 0:
+                                    print("Network Error!")
+                                    return
 
                         with open(path, 'wb+') as f:
                             f.write(img)
