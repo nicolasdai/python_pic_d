@@ -37,7 +37,7 @@ class pic_downloader():
             return self.start_request(url)
         
 
-    def parse(self, text):
+    def parse_group(self, text):
         doc = query(text)
         lis = doc('.imbimg')
         for li in lis:
@@ -155,7 +155,7 @@ class pic_downloader():
                 self.img_dict = json.load(file)
 
         text = self.start_request(url)
-        self.parse(text)
+        self.parse_group(text)
         self.download()
 
 
