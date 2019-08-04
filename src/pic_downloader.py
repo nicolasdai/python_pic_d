@@ -15,9 +15,9 @@ img_urls_json_path = './img_urls.json'
 urls_json_path = './urls.json'
 group_json_path = './group.json'
 
-img_path = 'H:\\image\\'
+img_path = '\\\\DISKSTATION\\av\\PIC\\image\\'
 
-url = "http://www.ilemiss.net/e/search/result/index.php?page=0&searchid=590"
+url = "https://www.ilemiss.net/e/search/result/index.php?page=1&searchid=590"
 
 class pic_downloader():
     def __init__(self):
@@ -27,7 +27,7 @@ class pic_downloader():
 
     def start_request(self, url):
         try:
-            r = requests.get(url, headers=headers)
+            r = requests.get(url, headers=headers, verify=False)
             r.encoding = 'utf-8'
             html = r.text
             return html
@@ -120,23 +120,17 @@ class pic_downloader():
                 x = 1
                 for key, value in pairs:
                     path = img_path + str(key) + ".jpg"
-                    
-                    if not os.path.exists(path):
-                        retry = 10
-                        while retry > 0:
-                            try:
-                                print("downloding: " + str(x) + " in total: " + str(total))
-                                img = requests.get(value, headers=headers).content
-                                break
-                            except:
-                                time.sleep(3)
-                                retry -= 1
-                                if retry <= 0:
-                                    print("Network Error!")
-                                    return
 
-                        with open(path, 'wb+') as f:
-                            f.write(img)
+                    print("downloding: " + str(x) + " in total: " + str(total))
+
+                    if not os.path.exists(path):
+                        try:
+                            img = requests.get(value, headers=headers, timeout=5).content
+                            with open(path, 'wb+') as f:
+                                f.write(img)
+                        except:
+                            continue
+                            
                     
                     x += 1
 
